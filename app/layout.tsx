@@ -24,8 +24,6 @@ export default function RootLayout({
 
   if (val?.role != "ADMIN") return <span>Vous netes pas ADMIN</span>; */
 
-  console.log("OSSSSSSSSS");
-
   return (
     <html lang="en">
       <body
@@ -39,7 +37,7 @@ export default function RootLayout({
             <div className="max-md:hidden w-1/4 h-full">
               <Sidebar />
             </div>
-            <div className="bg-slate-200 w-full my-2 rounded-lg p-2">
+            <div className="bg-slate-50 w-full my-2 rounded-lg p-2">
               {children}
             </div>
           </div>

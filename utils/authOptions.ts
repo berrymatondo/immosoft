@@ -38,6 +38,7 @@ export const authOptions: NextAuthOptions = {
             id: user.id + "",
             role: user.role,
             email: user.email,
+            username: user.name,
           };
         } else {
           // If you return null then an error will be displayed advising the user to check their details.

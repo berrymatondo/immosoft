@@ -3,10 +3,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
-import { User } from "@prisma/client";
 
 export const POST = async (request: NextRequest, response: NextResponse) => {
-  const { email, password, isAdmin } = await request.json();
+  const { username, email, password, isAdmin } = await request.json();
 
   try {
     //Check if the email already exist
@@ -23,6 +22,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
 
     const user = await prisma.user.create({
       data: {
+        name: username,
         email: email,
         password: hashedPassword,
         role: isAdmin ? "ADMIN" : "USER",

@@ -80,7 +80,7 @@ const LoginPage = () => {
           <Title title="Connexion" back={false} size="text-3xl" />
         </div>
 
-        <div className="text-lg  border rounded-lg w-full p-2 bg-slate-100">
+        <div className="text-lg  border rounded-lg w-full p-2 ">
           <div className="w-full  py-2 flex flex-col">
             <label className="font-semibold m-1">Email</label>
             <input
@@ -88,7 +88,7 @@ const LoginPage = () => {
                 setErrorMsg("");
                 setEmail(e.target.value);
               }}
-              className="text-blue-900 rounded-lg p-1 mb-2 border bg-white "
+              className="text-blue-900 rounded-full p-2 mb-2 border bg-white "
               type="email"
               disabled={val ? true : false}
               required
@@ -103,7 +103,7 @@ const LoginPage = () => {
                   setErrorMsg("");
                   setPassword(e.target.value);
                 }}
-                className="text-blue-900 rounded-lg p-1 mb-2 border bg-white"
+                className="text-blue-900 rounded-full p-2 mb-2 border bg-white"
                 type="password"
                 required
               />

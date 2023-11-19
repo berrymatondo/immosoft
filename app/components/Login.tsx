@@ -10,11 +10,18 @@ type PropsLogin = {
 const Login = (props: PropsLogin) => {
   const router = useRouter();
 
+  console.log("session: ", props.session?.user);
+
   return (
-    <div className="flex justify-end">
+    <div className="flex justify-end ">
       {props.session && (
         <div className="flex items-center justify-between w-full">
-          <span className="text-sm">Welcome, {props.session.user.email}</span>
+          <p>
+            Welcome,{" "}
+            <span className="text-sm font-semibold text-blue-600">
+              {props.session.user.username}
+            </span>
+          </p>
           <button
             className="bg-red-800 p-1 rounded-lg text-white"
             onClick={() => {

@@ -1,6 +1,7 @@
 "use client";
 import React, { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import Title from "../components/Title";
 
 const RegisterForm = () => {
   const [errorMsg, setErrorMsg] = useState("");
@@ -17,6 +18,7 @@ const RegisterForm = () => {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         body: JSON.stringify({
+          username: formData.get("username"),
           email: formData.get("email"),
           password: formData.get("password"),
           isAdmin: formData.get("isadmin"),
@@ -38,28 +40,65 @@ const RegisterForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="border flex flex-col gap-2 mx-auto max-w-md mt-10"
+      className="flex flex-col justify-start items-center"
     >
-      <input
-        className="border border-black"
-        name="email"
-        type="email"
-        onChange={() => setErrorMsg("")}
-      />
-      <input
-        className="border border-black"
-        name="password"
-        type="password"
-        onChange={() => setErrorMsg("")}
-      />
-
-      {errorMsg && <label className="text-red-400">{errorMsg}</label>}
-
-      <div className="w-full py-2 flex items-center gap-1">
-        <input className="border border-black" name="isadmin" type="checkbox" />
-        <label>Administrateur</label>
+      <div className="self-center">
+        <Title title="Nouvel Utilisateur" back={false} size="text-3xl" />
       </div>
-      <button type="submit">Enregistrer</button>
+
+      <div className="text-lg  border rounded-lg w-full p-2 ">
+        <div className="w-full  py-2 flex flex-col">
+          <label className="font-semibold m-1">Nom d'utilisateur</label>
+          <input
+            className="border border-black rounded-full p-2"
+            name="username"
+            type="username"
+            onChange={() => setErrorMsg("")}
+            required
+          />
+        </div>
+        <div className="w-full  py-2 flex flex-col">
+          <label className="font-semibold m-1">Email</label>
+          <input
+            className="border border-black rounded-full p-2"
+            name="email"
+            type="email"
+            onChange={() => setErrorMsg("")}
+            required
+          />
+        </div>
+
+        <div className="w-full  py-2 flex flex-col">
+          <label className="font-semibold m-1">Mot de passe</label>
+          <input
+            className="border border-black rounded-full p-2"
+            name="password"
+            type="password"
+            onChange={() => setErrorMsg("")}
+            required
+          />
+        </div>
+
+        {errorMsg && <label className="text-red-400">{errorMsg}</label>}
+
+        <div className="w-full py-2 flex items-center gap-1">
+          <input
+            className="border border-black"
+            name="isadmin"
+            type="checkbox"
+          />
+          <label>Administrateur</label>
+        </div>
+
+        <div className="self-end flex flex-col justify-center gap-2 mt-4">
+          <button
+            type="submit"
+            className="bg-third text-white text-lg rounded-lg px-2 py-1 w-full"
+          >
+            Enregistrer
+          </button>
+        </div>
+      </div>
     </form>
   );
 };

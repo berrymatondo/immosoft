@@ -15,10 +15,25 @@ model User {
   email    String  @unique
   password String
   name     String?
+  status   UserStatus @default(INACTIVE)
   role  Role    @default(USER)
 }
+
+model Person {
+  id       Int     @id @default(autoincrement())
+  firstname    String
+  lastname String
+  email     String  @unique
+  
+}
+
 
 enum Role {
   USER
   ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
 }
