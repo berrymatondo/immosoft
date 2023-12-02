@@ -10,14 +10,15 @@ const RegisterPage = async () => {
   const session = await getServerSession(authOptions);
   return (
     <>
-      <Login session={session} />
+      {/*       <Login session={session} />
+       */}{" "}
       <div className="max-w-[400px] mx-auto">
-        <div className=" flex justify-center text-6xl">
+        {/*         <div className=" flex justify-center text-6xl">
           <span className="text-third">
             <FaHouseDamage />
           </span>
-        </div>
-        <RegisterForm />
+        </div> */}
+        <RegisterForm session={session} />
       </div>
     </>
   );

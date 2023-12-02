@@ -10,40 +10,44 @@ import { redirect } from "next/navigation";
 import { authOptions } from "@/utils/authOptions";
 import Login from "./components/Login";
 import Header from "./components/Header";
+import Rightbar from "./components/dashboard/rightbar/Rightbar";
+import Chart from "./components/dashboard/Chart";
+import Transactions from "./components/dashboard/Transactions";
+import Card from "./components/dashboard/Card";
+import ClientDash from "./components/client/ClientDash";
+import ImmoDash from "./components/immo/ImmoDash";
+import AssuDash from "./components/assu/AssuDash";
+
+export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const session = await getServerSession(authOptions);
+  /*   const session = await getServerSession(authOptions);
 
-  /*   const user = await prisma.user.findFirst({
-    where: {
-      email: "test@gmail.com",
-    },
-  }); */
 
-  /*   const { data: session, status } = useSession();
-  const val: any = session?.user;
-  const router = useRouter();
 
-  if (!val) {
-    router.push("/login");
-  } */
-
-  redirect("/dashboard");
-
-  if (!session) {
-    redirect("/login");
-  }
-  console.log("YESSSSSSSSSSSSSSSSSSSSSSSS");
+  redirect("/dashboard"); */
 
   return (
-    /*     <main className="w-full flex min-h-screen flex-col items-center justify-between">
-     */
+    <div className="flex gap-5 mt-5">
+      <div className="flex-[3_3_0%] flex flex-col gap-5">
+        <div className="flex justify-between gap-5 ">
+          <ClientDash />
+          <ImmoDash />
+          <AssuDash />
+          {/*           <Card title="immobiliers" total={0} path="/clients" />
+          <Card title="Assurances" total={0} path="/clients" /> */}
+        </div>
+        <Transactions />
+        <Chart />
+      </div>
+      <div className="flex-1">
+        <Rightbar />
+      </div>
+    </div>
 
-    <main>
+    /*     <main>
       <Header />
       {<span>USER</span>}
-      {/*       <span>{JSON.stringify(session)}</span>
-       */}{" "}
-    </main>
+    </main> */
   );
 }

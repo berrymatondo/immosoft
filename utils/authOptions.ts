@@ -34,11 +34,16 @@ export const authOptions: NextAuthOptions = {
             return null;
           }
 
+          //console.log("user.usernam", user.username);
+
           return {
             id: user.id + "",
             role: user.role,
             email: user.email,
             username: user.name,
+            createAt: user.createAt,
+            updatedAt: user.updatedAt,
+            usermaj: user.username,
           };
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
@@ -59,7 +64,7 @@ export const authOptions: NextAuthOptions = {
     },
   },
   pages: {
-    signIn: "/auth/register",
+    signIn: "/login",
   },
   session: {
     strategy: "jwt",

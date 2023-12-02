@@ -3,9 +3,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
 
 export const POST = async (request: NextRequest, response: NextResponse) => {
   const { username, email, password, isAdmin } = await request.json();
+
+  const session = await getServerSession(authOptions);
+
+  // console.log("SESSION", session);
+  //console.log("USER", session?.user);
 
   try {
     //Check if the email already exist
@@ -20,12 +27,18 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
+    const userTmp: any = session?.user;
+
     const user = await prisma.user.create({
       data: {
         name: username,
         email: email,
         password: hashedPassword,
         role: isAdmin ? "ADMIN" : "USER",
+        createAt: new Date(),
+        updatedAt: new Date(),
+        username: userTmp.username ? userTmp.username : "",
+        userId: userTmp.id ? parseInt(userTmp.id) : null,
       },
     });
 

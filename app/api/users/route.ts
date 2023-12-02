@@ -10,6 +10,10 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
         name: true,
         role: true,
         status: true,
+        createAt: true,
+        updatedAt: true,
+        userId: true,
+        username: true,
       },
     });
 

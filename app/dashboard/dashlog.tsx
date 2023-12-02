@@ -8,7 +8,8 @@ const DashLog = () => {
 
   return (
     <div>
-      <Login session={session} />
+      {/*       <Login session={session} />
+       */}{" "}
       {!session ? <span>Not connected</span> : <span>Dashboard Page</span>}
     </div>
   );

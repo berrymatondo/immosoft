@@ -3,7 +3,11 @@ import React, { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Title from "../components/Title";
 
-const RegisterForm = () => {
+type PropsLogin = {
+  session: any;
+};
+
+const RegisterForm = (props: PropsLogin) => {
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
 
@@ -37,6 +41,14 @@ const RegisterForm = () => {
     }
   };
 
+  if (props.session?.user?.role !== "ADMIN") {
+    return (
+      <p className="py-20 text-red-400">
+        {"Vous n'êtes pas autorisé(e) à effectuer cette action"}
+      </p>
+    );
+  }
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -48,7 +60,7 @@ const RegisterForm = () => {
 
       <div className="text-lg  border rounded-lg w-full p-2 ">
         <div className="w-full  py-2 flex flex-col">
-          <label className="font-semibold m-1">Nom d'utilisateur</label>
+          <label className="font-semibold m-1">{"Nom d'utilisateur"}</label>
           <input
             className="border border-black rounded-full p-2"
             name="username"

@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "./context/AuthProvider";
-import { signOut, useSession } from "next-auth/react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "./components/navigation/Sidebar";
+import Navbar from "./components/navigation/Navbar";
+import Footer from "./components/navigation/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,29 +18,42 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  /*   const { data: session, status } = useSession();
-  const val: any = session?.user;
-
-  if (val?.role != "ADMIN") return <span>Vous netes pas ADMIN</span>; */
-
   return (
     <html lang="en">
-      <body
-        className="bg-gray-100 text-third sm:mx-40 h-screen flex flex-col justify-between"
+      {/*       <body
+        className="bg-primary text-third sm:mx-40 h-screen flex flex-col justify-between"
         suppressHydrationWarning={true}
       >
         <AuthProvider>
-          {/*           <Header />
-           */}{" "}
           <div className="h-full flex">
             <div className="max-md:hidden w-1/4 h-full">
               <Sidebar />
             </div>
-            <div className="bg-slate-50 w-full my-2 rounded-lg p-2">
+            <div className="bg-secondary w-full my-2 rounded-lg p-2">
               {children}
             </div>
           </div>
           <Footer />
+        </AuthProvider>
+      </body> */}
+      <body
+        suppressHydrationWarning={true}
+        className="bg-primary text-white flex max-w-[1920px] mx-auto"
+      >
+        <AuthProvider>
+          {" "}
+          <div className="flex-1 bg-secondary p-5 min-h-screen max-lg:hidden">
+            <Sidebar />
+          </div>
+          <div className="flex-[4_4_0%] p-5 flex flex-col ">
+            <Navbar />
+            {children}
+            {/*             <div className="h-full flex items-end">
+             */}{" "}
+            <Footer />
+            {/*             </div>
+             */}{" "}
+          </div>
         </AuthProvider>
       </body>
     </html>

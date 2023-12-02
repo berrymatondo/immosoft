@@ -10,6 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
 model User {
   id       Int     @id @default(autoincrement())
   email    String  @unique
@@ -17,14 +18,56 @@ model User {
   name     String?
   status   UserStatus @default(INACTIVE)
   role  Role    @default(USER)
+  createAt DateTime?
+  updatedAt DateTime?
+  userId Int?
+  username String?
 }
 
 model Person {
   id       Int     @id @default(autoincrement())
-  firstname    String
+  firstname    String?
   lastname String
-  email     String  @unique
-  
+  gender Gender
+  maritalstatus MaritalStatus
+  birthday DateTime?
+  mobile String?
+  email     String?  @unique
+  address String?
+  notes String?
+  createAt DateTime
+  updatedAt DateTime
+  userId Int?
+  username String
+  assus Assurance[]
+
+}
+
+
+model Assurance {
+  id       Int     @id @default(autoincrement())
+  Comment    String?
+  status AssuStatus
+  type AssuType
+  createAt DateTime
+  updatedAt DateTime
+  userId Int?
+  username String
+  personId Int @unique
+  person Person @relation(fields: [personId], references: [id])
+}
+
+enum AssuType {
+  AXA
+  DELA
+  AUTRE
+}
+
+enum AssuStatus {
+  OFA
+  OAC
+  DV1
+  PCD
 }
 
 
@@ -36,4 +79,14 @@ enum Role {
 enum UserStatus {
   ACTIVE
   INACTIVE
+}
+
+enum Gender {
+  Homme
+  Femme
+}
+
+enum MaritalStatus {
+  M
+  C
 }

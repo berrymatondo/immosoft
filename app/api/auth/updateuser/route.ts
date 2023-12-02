@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
 
 export const PUT = async (request: NextRequest) => {
   const { username, oldemail, newemail, password, status, role } =
     await request.json();
+  const session = await getServerSession(authOptions);
   try {
     //Check if the email already exist
     const foundUser = await prisma.user.findUnique({
@@ -15,6 +18,8 @@ export const PUT = async (request: NextRequest) => {
 
     if (foundUser && oldemail != newemail)
       return NextResponse.json({ message: "KO" }, { status: 200 });
+
+    const userTmp: any = session?.user;
 
     let updateUser;
     // Hash password
@@ -31,6 +36,9 @@ export const PUT = async (request: NextRequest) => {
             password: hashedPassword,
             status: status,
             role: role,
+            updatedAt: new Date(),
+            username: userTmp.username ? userTmp.username : "",
+            userId: userTmp.id ? parseInt(userTmp.id) : null,
           },
         });
       } else {
@@ -45,6 +53,9 @@ export const PUT = async (request: NextRequest) => {
             password: hashedPassword,
             status: status,
             role: role,
+            updatedAt: new Date(),
+            username: userTmp.username ? userTmp.username : "",
+            userId: userTmp.id ? parseInt(userTmp.id) : null,
           },
         });
       }
@@ -59,6 +70,9 @@ export const PUT = async (request: NextRequest) => {
 
             status: status,
             role: role,
+            updatedAt: new Date(),
+            username: userTmp.username ? userTmp.username : "",
+            userId: userTmp.id ? parseInt(userTmp.id) : null,
           },
         });
       } else {
@@ -72,6 +86,9 @@ export const PUT = async (request: NextRequest) => {
             email: newemail,
             status: status,
             role: role,
+            updatedAt: new Date(),
+            username: userTmp.username ? userTmp.username : "",
+            userId: userTmp.id ? parseInt(userTmp.id) : null,
           },
         });
       }

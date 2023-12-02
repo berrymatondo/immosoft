@@ -8,8 +8,8 @@ import Title from "../components/Title";
 import { Role, User, UserStatus } from "@prisma/client";
 
 const UpdateUser = () => {
-  const { data: session, status } = useSession();
-  const val: any = session?.user;
+  const { data: session, status, update } = useSession();
+  //const val: any = session?.user;
 
   const router = useRouter();
 
@@ -22,6 +22,10 @@ const UpdateUser = () => {
   const [password, setPassword] = useState<string>("");
   const [errorMsg, setErrorMsg] = useState<string>("");
   const [savedemail, setSavedemail] = useState<string>("");
+  const [creationDate, setCreationDate] = useState<string>("");
+  const [updateDate, setUpdateDate] = useState<string>("");
+  const [userMaj, setUserMaj] = useState<string>("");
+  const [showAudit, setShowAudit] = useState<boolean>(false);
 
   const [users, setUsers] = useState([]);
 
@@ -32,6 +36,7 @@ const UpdateUser = () => {
       });
       const data = await res.json();
       setUsers(data.results);
+      console.log("DATA", data.results);
     };
 
     fetchUsers();
@@ -63,6 +68,7 @@ const UpdateUser = () => {
       if (data.message === "KO") {
         setErrorMsg("Cet email est déjà utilisé");
       } else {
+        await update({ username });
         router.push("/clients");
       }
     } catch (error) {
@@ -74,8 +80,8 @@ const UpdateUser = () => {
 
   return (
     <div>
-      <Login session={session} />
-      {!session ? <span>Not connected</span> : <span>ImmosPage</span>}
+      {/*       <Login session={session} />
+      {!session ? <span>Not connected</span> : <span>Utilisateurs</span>} */}
 
       <form
         onSubmit={HandleConfirmer}
@@ -104,8 +110,8 @@ const UpdateUser = () => {
                     (x: any) => x.id === +e.target.value
                   );
 
-                  console.log("users", users);
-                  console.log("c", c);
+                  //       console.log("c", c);
+
                   setSavedemail(c.email);
 
                   setOldEmail(c.email);
@@ -113,6 +119,9 @@ const UpdateUser = () => {
                   setUsername(c.name);
                   setRole(c.role);
                   setUserStatus(c.status);
+                  setCreationDate(c.createAt);
+                  setUpdateDate(c.updatedAt);
+                  setUserMaj(c.username);
                 }
               }}
             >
@@ -121,7 +130,14 @@ const UpdateUser = () => {
                 ? users.map((user: User) => {
                     return (
                       <option key={user.id} value={user.id}>
-                        {user.name} - {user.email}
+                        {user.name} - {user.email} -{user.role} +
+                        <p
+                          className={
+                            user.role === "USER" ? `text-red-600` : `text-black`
+                          }
+                        >
+                          {user.role}
+                        </p>
                       </option>
                     );
                   })
@@ -150,7 +166,9 @@ const UpdateUser = () => {
 
             {selectedEmail && (
               <div className="w-full  py-2 flex flex-col">
-                <label className="font-semibold m-1">Nom d'utilisateur</label>
+                <label className="font-semibold m-1">
+                  {"Nom d'utilisateur"}
+                </label>
                 <input
                   onChange={(e) => {
                     setErrorMsg("");
@@ -241,12 +259,16 @@ const UpdateUser = () => {
                   //required
                   value={password}
                 />{" "}
-                <p
-                  className="text-center text-sm p-1 bg-white border rounded-full hover:cursor-pointer hover:bg-secondary"
-                  onClick={() => setShow(!show)}
-                >
-                  {show ? "Cacher le mot de passe" : "Afficher le mot de passe"}
-                </p>
+                {password && (
+                  <p
+                    className="text-center text-sm p-1 bg-white border rounded-full hover:cursor-pointer hover:bg-secondary"
+                    onClick={() => setShow(!show)}
+                  >
+                    {show
+                      ? "Cacher le mot de passe"
+                      : "Afficher le mot de passe"}
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -278,9 +300,10 @@ const UpdateUser = () => {
                 onClick={() => {
                   console.log("REFRESSSS");
                   //window.location.reload();
-                  setSelectedEmail("");
-                  setOldEmail("empty");
-                  router.refresh();
+                  //setSelectedEmail("");
+                  //setOldEmail("empty");
+                  //router.refresh();
+                  router.push("/");
                 }}
                 type="button"
                 className="border font-semibold text-red-600 text-lg rounded-lg px-2 py-1 w-full"
@@ -293,6 +316,27 @@ const UpdateUser = () => {
               >
                 Mettre à jour
               </button>
+            </div>
+          )}
+          {selectedEmail && (
+            <div className="bg-slate-200 rounded-lg text-xs my-2">
+              <p
+                onClick={() => setShowAudit(!showAudit)}
+                className="text-center font-semibold p-1"
+              >
+                {"Voir l'audit"}
+              </p>
+              {showAudit && (
+                <div className="flex flex-col my-2">
+                  <p className="text-center">Mis à jour par: {userMaj}</p>
+                  <p className="text-center">
+                    Date de création: {creationDate}
+                  </p>
+                  <p className="text-center">
+                    Dernière modification: {updateDate}
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>

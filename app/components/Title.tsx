@@ -12,7 +12,7 @@ type TitleProps = {
 
 const Title = (props: TitleProps) => {
   const router = useRouter();
-  const titleSize = "font-semibold " + props.size;
+  const titleSize = "font-bold " + props.size;
 
   const handleOnClick = () => {
     if (props.force) {
@@ -27,7 +27,7 @@ const Title = (props: TitleProps) => {
   };
 
   return (
-    <div className="flex items-center text-third text-xl my-2">
+    <div className="flex items-center text-yellow-400 text-xl my-2 ">
       {props.back && (
         <span className="text-[#38BDF8] text-2xl mr-4" onClick={handleOnClick}>
           <BiArrowBack />

@@ -11,6 +11,8 @@ import Title from "../components/Title";
 const LoginPage = () => {
   const { data: session, status } = useSession();
   const val: any = session?.user;
+  const inputStyle =
+    "outline-0 rounded-full p-2 mb-2 bg-secondary border-2 border-hov";
 
   const [show, setShow] = useState<boolean>(false);
   const [email, setEmail] = useState<any>("");
@@ -65,22 +67,22 @@ const LoginPage = () => {
   return (
     <div className="max-w-[400px] mx-auto">
       <div className=" flex justify-center text-6xl">
-        <span className="text-third">
+        <span className="text-teal-600">
           <FaHouseDamage />
         </span>
+      </div>
+
+      <div className="w-full text-center flex justify-center p-5">
+        <Title title="Connexion" back={false} size="text-3xl" />
       </div>
 
       <form
         onSubmit={(e) => {
           HandleConfirmer(e);
         }}
-        className="flex flex-col justify-start items-center"
+        className="flex flex-col justify-start items-center bg-primary rounded-lg"
       >
-        <div className="self-center">
-          <Title title="Connexion" back={false} size="text-3xl" />
-        </div>
-
-        <div className="text-lg  border rounded-lg w-full p-2 ">
+        <div className="text-lg   rounded-lg w-full p-2 ">
           <div className="w-full  py-2 flex flex-col">
             <label className="font-semibold m-1">Email</label>
             <input
@@ -88,7 +90,7 @@ const LoginPage = () => {
                 setErrorMsg("");
                 setEmail(e.target.value);
               }}
-              className="text-blue-900 rounded-full p-2 mb-2 border bg-white "
+              className={inputStyle}
               type="email"
               disabled={val ? true : false}
               required
@@ -103,7 +105,7 @@ const LoginPage = () => {
                   setErrorMsg("");
                   setPassword(e.target.value);
                 }}
-                className="text-blue-900 rounded-full p-2 mb-2 border bg-white"
+                className={inputStyle}
                 type="password"
                 required
               />
@@ -117,17 +119,8 @@ const LoginPage = () => {
           )}
 
           <div className="self-end flex flex-col justify-center gap-2 mt-4">
-            {/*             {val && (
-              <button
-                type="button"
-                onClick={handleSignOut}
-                className=" text-white bg-red-600 rounded-lg p-2 border"
-              >
-                Se Déconnecter
-              </button>
-            )} */}
             {!val && (
-              <button className="bg-third text-white text-lg rounded-lg px-2 py-1 w-full">
+              <button className="bg-teal-800 text-white text-xl rounded-lg p-2 w-full">
                 Se Connecter
               </button>
             )}
