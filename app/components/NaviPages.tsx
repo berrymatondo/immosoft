@@ -6,6 +6,7 @@ type NaviProps = {
   limit: number;
   total: number;
   search?: string;
+  path: string;
 };
 
 const NaviPages = (props: NaviProps) => {
@@ -22,10 +23,10 @@ const NaviPages = (props: NaviProps) => {
         onClick={() =>
           router.push(
             props.search
-              ? `/clients?page=${props.page > 1 ? props.page - 1 : 1}&search=${
-                  props.search
-                }`
-              : `/clients?page=${props.page > 1 ? props.page - 1 : 1}`
+              ? `/${props.path}?page=${
+                  props.page > 1 ? props.page - 1 : 1
+                }&search=${props.search}`
+              : `/${props.path}?page=${props.page > 1 ? props.page - 1 : 1}`
           )
         }
       >
@@ -40,8 +41,8 @@ const NaviPages = (props: NaviProps) => {
         onClick={() =>
           router.push(
             props.search
-              ? `/clients?page=${props.page + 1}&search=${props.search}`
-              : `/clients?page=${props.page + 1}`
+              ? `/${props.path}?page=${props.page + 1}&search=${props.search}`
+              : `/${props.path}?page=${props.page + 1}`
           )
         }
       >

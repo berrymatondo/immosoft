@@ -10,7 +10,7 @@ type PropsLogin = {
 const Login = (props: PropsLogin) => {
   const router = useRouter();
 
-  console.log("session: ", props.session?.user);
+  //console.log("session: ", props.session?.user);
 
   return (
     <div className="flex justify-end ">

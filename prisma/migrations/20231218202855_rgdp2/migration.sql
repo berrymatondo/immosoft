@@ -1,0 +1,2 @@
+-- AddForeignKey
+ALTER TABLE "Rgpd" ADD CONSTRAINT "Rgpd_personId_fkey" FOREIGN KEY ("personId") REFERENCES "Person"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

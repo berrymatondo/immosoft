@@ -59,7 +59,7 @@ const NewClientPage = () => {
       },
       body: JSON.stringify(newClient),
     };
-    console.log("newClient", newClient);
+    //console.log("newClient", newClient);
 
     try {
       //const res = await fetch(process.env.NEXT_PUBLIC_POLES_API!, options);
@@ -67,7 +67,6 @@ const NewClientPage = () => {
       const res = await fetch("/api/clients", options);
       const data = await res.json();
       //   return data;
-      console.log("OKKKKK");
 
       if (res.ok) router.push("/clients");
     } catch (e) {
@@ -105,7 +104,7 @@ const NewClientPage = () => {
       {/*       <Login session={session} />
        */}{" "}
       <div className=" rounded-lg p-2 mt-2 bg-primary">
-        <Title title="Créer un client" back={false} size="lg:text-2xl" />
+        <Title title="Créer un client" back={true} size="lg:text-2xl" />
         <p className="text-sm">
           {"Cette transaction permet d'ajouter un nouveau client"}
         </p>
@@ -114,14 +113,16 @@ const NewClientPage = () => {
         onSubmit={(e) => {
           HandleConfirmer(e);
         }}
-        className="flex flex-col justify-start items-center my-5  "
+        className=""
       >
-        <div className="text-lg rounded-lg w-full p-2 bg-primary text-white ">
-          <div className="flex flex-col ">
-            <p className="uppercase font-semibold text-sm text-yellow-400">
-              Signalétique
-            </p>
-            <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
+        <div className="flex flex-col text-lg rounded-lg w-full p-2  text-white ">
+          <div className=" w-full flex justify-between gap-8 max-md:flex-col">
+            <div className="border border-hov p-4 rounded-lg flex flex-col  w-full ">
+              <p className="uppercase font-semibold text-sm text-yellow-400">
+                Signalétique
+              </p>
+              {/*               <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
+               */}{" "}
               <div className="w-full  lg:py-1 flex flex-col">
                 <MyLabel title="Prénom" />
                 <input
@@ -134,7 +135,6 @@ const NewClientPage = () => {
                   value={firstName}
                 />
               </div>
-
               <div className="w-full  lg:py-1 flex flex-col">
                 <MyLabel title="Nom" />
                 <input
@@ -148,8 +148,9 @@ const NewClientPage = () => {
                   required
                 />
               </div>
-            </div>
-            <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4">
+              {/* </div> */}
+              {/*               <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4">
+               */}{" "}
               <div className="w-full  lg:py-1 flex flex-col">
                 <MyLabel title="Genre" />
                 <select
@@ -204,129 +205,109 @@ const NewClientPage = () => {
                     : null}
                 </select>
               </div>
-            </div>
-            <div className="flex max-lgflex-col justify-between place-items-center w-full gap-4">
-              <div className="w-full  lg:py-1 flex flex-col">
-                <MyLabel title="Date de naissance" />
-                <input
-                  onChange={(e) => {
-                    setErrorMsg("");
-                    setBirthdate(e.target.value);
-                  }}
-                  className={inputStyle}
-                  type="date"
-                  value={birthdate}
-                  required
-                />
-              </div>
-              <div className="w-full  lg:py-1 flex flex-col">
-                <MyLabel title="Age" />
-                <input
-                  className={inputStyle}
-                  type="text"
-                  value={birthdate ? calculate_age(birthdate) : "---"}
-                  disabled={true}
-                />
-              </div>
-            </div>
-            <p className="uppercase font-semibold text-sm lg:mt-2 pt-8 text-yellow-400">
-              Données de contact
-            </p>
-
-            <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
-              <div className="w-full  lg:py-1 flex flex-col">
-                <MyLabel title="Téléphone" />
-                <input
-                  onChange={(e) => {
-                    setErrorMsg("");
-                    setMobile(e.target.value);
-                  }}
-                  className={inputStyle}
-                  type="text"
-                  value={mobile}
-                />
-              </div>
-
-              <div className="w-full  lg:py-1 flex flex-col">
-                <MyLabel title="Email" />
-                <input
-                  onChange={(e) => {
-                    setErrorMsg("");
-                    setEmail(e.target.value);
-                  }}
-                  className={inputStyle}
-                  type="email"
-                  value={email}
-                />
-              </div>
-            </div>
-
-            <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
-              <div className="w-full  lg:py-1 flex flex-col">
-                <MyLabel title="Adresse" />
-                <input
-                  onChange={(e) => {
-                    setErrorMsg("");
-                    setAddress(e.target.value);
-                  }}
-                  className={inputStyle}
-                  type="text"
-                  value={address}
-                />
-              </div>
-            </div>
-
-            <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
-              <div className="w-full  lg:py-1 flex flex-col">
-                <MyLabel title="Note sur le client" />
-                <textarea
-                  onChange={(e) => {
-                    setErrorMsg("");
-                    setNotes(e.target.value);
-                  }}
-                  className={inputStyle}
-                  value={notes}
-                  rows={4}
-                />
-              </div>
-            </div>
-            {/*             <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
-              <div className="w-full  lg:py-2 flex flex-col">
-                <label className="font-semibold m-1">
-                  {" "}
+              {/*               </div>
+               */}{" "}
+              <div className="flex max-lgflex-col justify-between place-items-center w-full gap-4">
+                <div className="w-full  lg:py-1 flex flex-col">
+                  <MyLabel title="Date de naissance" />
                   <input
                     onChange={(e) => {
                       setErrorMsg("");
-                      setFirstName(e.target.value);
+                      setBirthdate(e.target.value);
                     }}
-                    className="text-blue-900 rounded-full p-2 max-lg:p-1 mb-2 border bg-white "
-                    type="checkbox"
-                    value={firstName}
+                    className={inputStyle}
+                    type="date"
+                    value={birthdate}
+                    required
                   />
-                  RGPD
-                </label>
+                </div>
+                <div className="w-full  lg:py-1 flex flex-col">
+                  <MyLabel title="Age" />
+                  <input
+                    className={inputStyle}
+                    type="text"
+                    value={birthdate ? calculate_age(birthdate) : "---"}
+                    disabled={true}
+                  />
+                </div>
               </div>
-            </div> */}
+            </div>
+            <div className="border border-hov p-4 rounded-lg flex flex-col   w-full">
+              <p className="uppercase font-semibold text-sm text-yellow-400">
+                Données de contact
+              </p>
+
+              <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
+                <div className="w-full  lg:py-1 flex flex-col">
+                  <MyLabel title="Téléphone" />
+                  <input
+                    onChange={(e) => {
+                      setErrorMsg("");
+                      setMobile(e.target.value);
+                    }}
+                    className={inputStyle}
+                    type="text"
+                    value={mobile}
+                  />
+                </div>
+
+                <div className="w-full  lg:py-1 flex flex-col">
+                  <MyLabel title="Email" />
+                  <input
+                    onChange={(e) => {
+                      setErrorMsg("");
+                      setEmail(e.target.value);
+                    }}
+                    className={inputStyle}
+                    type="email"
+                    value={email}
+                  />
+                </div>
+              </div>
+
+              <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
+                <div className="w-full  lg:py-1 flex flex-col">
+                  <MyLabel title="Adresse" />
+                  <input
+                    onChange={(e) => {
+                      setErrorMsg("");
+                      setAddress(e.target.value);
+                    }}
+                    className={inputStyle}
+                    type="text"
+                    value={address}
+                  />
+                </div>
+              </div>
+
+              <div className="flex max-lg:flex-col justify-between place-items-center w-full gap-4 max-lg:gap-0">
+                <div className="w-full  lg:py-1 flex flex-col">
+                  <MyLabel title="Note sur le client" />
+                  <textarea
+                    onChange={(e) => {
+                      setErrorMsg("");
+                      setNotes(e.target.value);
+                    }}
+                    className={inputStyle}
+                    value={notes}
+                    rows={4}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {errorMsg && (
+              <div className="w-full  py-2 flex flex-col">
+                <label className="text-red-400">{errorMsg}</label>
+              </div>
+            )}
           </div>
 
-          {errorMsg && (
-            <div className="w-full  py-2 flex flex-col">
-              <label className="text-red-400">{errorMsg}</label>
-            </div>
-          )}
-
-          <div className="self-end flex flex-col justify-center gap-2 mt-4">
-            {/*             {val && (
-              <button
-                type="button"
-                onClick={handleSignOut}
-                className=" text-white bg-red-600 rounded-lg p-2 border"
-              >
-                Se Déconnecter
-              </button>
-            )} */}
-
-            <button className="bg-green-600 text-white text-lg rounded-lg px-2 py-1 w-full">
+          <div className="flex justify-center gap-4 mt-4 rounded-lg px-2 py-1  ">
+            <button className="mt-4 border text-red-400 text-lg rounded-lg px-2 py-1 w-1/3">
+              Annuler
+            </button>
+            <button className="mt-4 bg-teal-800 hover:bg-teal-600 text-white text-lg rounded-lg px-2 py-1 w-1/3 ">
               Enregister
             </button>
           </div>

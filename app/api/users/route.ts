@@ -17,11 +17,11 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
       },
     });
 
-    console.log("results: ", JSON.stringify(results));
+    //console.log("results: ", JSON.stringify(results));
 
     return NextResponse.json({ message: "OK", results }, { status: 200 });
   } catch (error) {
-    console.log("error", error);
+    //console.log("error", error);
 
     return NextResponse.json(
       { message: "Error", error },

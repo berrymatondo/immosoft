@@ -36,7 +36,7 @@ const UpdateUser = () => {
       });
       const data = await res.json();
       setUsers(data.results);
-      console.log("DATA", data.results);
+      // console.log("DATA", data.results);
     };
 
     fetchUsers();
@@ -298,7 +298,6 @@ const UpdateUser = () => {
             <div className="self-end flex flex-col justify-center gap-2 mt-4">
               <button
                 onClick={() => {
-                  console.log("REFRESSSS");
                   //window.location.reload();
                   //setSelectedEmail("");
                   //setOldEmail("empty");

@@ -7,8 +7,6 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
 
     return NextResponse.json({ message: "OK", count }, { status: 200 });
   } catch (error) {
-    console.log("error", error);
-
     return NextResponse.json(
       { message: "Error", error },
       {

@@ -32,10 +32,10 @@ const Search = (props: SearchProps) => {
       /*       if (!query) router.push(`/${props.path}`);
       else router.push(pathTo); */
 
-      if (!query) router.push(`/clients`);
-      else router.push(`/clients?search=${query}`);
+      if (!query) router.push(`/${props.path}`);
+      else router.push(`/${props.path}?search=${query}`);
     }
-  }, [query, router]);
+  }, [query, router, props.path]);
 
   return (
     <>

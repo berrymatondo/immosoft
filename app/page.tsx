@@ -21,19 +21,18 @@ import AssuDash from "./components/assu/AssuDash";
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  /*   const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions);
+  if (!session) redirect("/login");
 
-
-
-  redirect("/dashboard"); */
+  redirect("/dashboard");
 
   return (
     <div className="flex gap-5 mt-5">
       <div className="flex-[3_3_0%] flex flex-col gap-5">
         <div className="flex justify-between gap-5 ">
           <ClientDash />
-          <ImmoDash />
-          <AssuDash />
+          {/*           <ImmoDash />
+          <AssuDash /> */}
           {/*           <Card title="immobiliers" total={0} path="/clients" />
           <Card title="Assurances" total={0} path="/clients" /> */}
         </div>

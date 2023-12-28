@@ -1,18 +1,18 @@
 import React from "react";
 import Card from "../dashboard/Card";
-import { MdHouse } from "react-icons/md";
-import { totalClients } from "@/app/lib/getAllClients";
+import { MdGrade, MdHouse } from "react-icons/md";
+import { totalImmos } from "@/app/lib/getAllImmos";
 
 export const dynamic = "force-dynamic";
 
 const ImmoDash = async () => {
-  const total = await totalClients();
+  const total = await totalImmos(false);
 
   return (
     <>
       <Card
         title="Dossiers Immobiliers"
-        total={total}
+        total={+total}
         path="/immos"
         icon={
           <span className="text-orange-400">

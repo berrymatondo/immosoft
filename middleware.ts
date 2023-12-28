@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export default withAuth(
   function middleware(req) {
     //console.log(req.nextauth.token);
-    console.log("LOG", req.nextauth);
+    //console.log("LOG", req.nextauth);
 
     if (
       req.nextUrl.pathname === "/user" &&
@@ -38,4 +38,12 @@ export default withAuth(
   }
 );
 
-export const config = { matcher: ["/register", "/user", "/clients/newclient"] };
+export const config = {
+  matcher: [
+    "/register",
+    "/user",
+    "/clients/newclient",
+    "/clients/:path*/update",
+    "/clients/:path*",
+  ],
+};

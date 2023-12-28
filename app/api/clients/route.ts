@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
+import { revalidatePath } from "next/cache";
 
 export const POST = async (request: NextRequest, response: NextResponse) => {
   const {
@@ -16,6 +17,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     birthdate,
     mobile,
     address,
+    origin,
     notes,
   } = await request.json();
 
@@ -57,8 +59,9 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
         birthday: new Date(birthdate),
         mobile: mobile,
         address: address,
-        createAt: new Date(),
-        updatedAt: new Date(),
+        origin: origin,
+        // createAt: new Date(),
+        // updatedAt: new Date(),
         username: userTmp.username ? userTmp.username : "",
         userId: userTmp.id ? parseInt(userTmp.id) : null,
       },
@@ -103,7 +106,7 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
       take: limit,
       skip: skip,
     });
-    console.log("ICI 5"); */
+    //console.log("ICI 5"); */
 
     let results;
     if (taille < 1) {
@@ -113,23 +116,40 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
           firstname: true,
           lastname: true,
           mobile: true,
+          rgpd: true,
+          assus: true,
+          immos: true,
         },
+
         take: limit,
         skip: skip,
       });
     } else {
       results = await prisma.person.findMany({
         where: {
-          lastname: {
-            contains: search!,
-            mode: "insensitive",
-          },
+          OR: [
+            {
+              lastname: {
+                contains: search!,
+                mode: "insensitive",
+              },
+            },
+            {
+              firstname: {
+                contains: search!,
+                mode: "insensitive",
+              },
+            },
+          ],
         },
         select: {
           id: true,
           firstname: true,
           lastname: true,
           mobile: true,
+          rgpd: true,
+          assus: true,
+          immos: true,
         },
         take: limit,
         skip: skip,
@@ -151,10 +171,12 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
 
     // console.log("results: ", JSON.stringify(results));
 
+    const path = request.nextUrl.pathname || "/";
+
+    revalidatePath(path);
+
     return NextResponse.json({ message: "OK", results }, { status: 200 });
   } catch (error) {
-    console.log("error", error);
-
     return NextResponse.json(
       { message: "Error", error },
       {

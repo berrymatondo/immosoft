@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import {
   MdBuild,
@@ -17,6 +18,10 @@ import Connect from "../connexion/Connect";
 import { authOptions } from "@/utils/authOptions";
 import { getServerSession } from "next-auth";
 import Disconnect from "../connexion/Disconnect";
+import { GiPayMoney } from "react-icons/gi";
+
+import { usePathname, useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
 
 const menuItems = [
   {
@@ -54,13 +59,13 @@ const menuItems = [
         path: "/assus",
         icon: (
           <span className="text-purple-400">
-            <MdGrade size={20} />
+            <GiPayMoney size={20} />
           </span>
         ),
       },
       {
         title: "Actions",
-        path: "/tasks",
+        path: "/actions",
         icon: (
           <span className="text-blue-400">
             <MdTask size={20} />
@@ -71,7 +76,7 @@ const menuItems = [
   },
 
   {
-    title: "Utilisateurs",
+    title: "Administration",
     list: [
       {
         title: "Nouvel utilisateur",
@@ -91,16 +96,46 @@ const menuItems = [
           </span>
         ),
       },
+      ,
+      {
+        title: "Nouveau client",
+        path: "/rgpd/clients/new",
+        icon: (
+          <span className="text-green-400">
+            <MdPeople size={20} />
+          </span>
+        ),
+      },
     ],
   },
 ];
 
-const Sidebar = async () => {
-  const session = await getServerSession(authOptions);
+const Sidebar = () => {
+  //const session = await getServerSession(authOptions);
+  const { data: session, status } = useSession();
+  const val: any = session?.user;
+  const router = useRouter();
+
+  const pathname = usePathname();
+
+  //console.log("PAth:=", pathname);
+
+  /*   if (pathname.includes("rgpd")) {
+    //console.log("REROU");
+
+    return;
+  }
+ */
+  if (!session) {
+    //console.log("REROU");
+
+    return;
+  }
 
   return (
     <div className="sticky top-10">
       <Connect session={session} />
+
       <ul>
         {menuItems.map((cat: any) => (
           <li key={cat.title}>

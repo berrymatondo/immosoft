@@ -1,91 +1,103 @@
-import React from "react";
-import { getAllclients } from "../lib/getAllClients";
+"use client";
+import React, { useEffect, useState } from "react";
 import Title from "../components/Title";
-import { Person } from "@prisma/client";
+import AddButton from "../components/AddButton";
 import Search from "../components/Search";
+import NaviPages from "../components/NaviPages";
+import getSes from "../lib/getServerSession";
+import Navbar from "../components/navigation/Navbar";
+import { useSession } from "next-auth/react";
+import { getAllImmos, totalImmos } from "../lib/getAllImmos";
+import ImmosTable from "../components/immo/ImmosTable";
 
-const ImmosPage = async ({
+export const dynamic = "force-dynamic";
+
+const ImmosListPage = ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | string[] | undefined };
 }) => {
-  // const { data: session, status } = useSession();
+  const page =
+    typeof searchParams.page === "string" ? Number(searchParams.page) : 1;
+
+  const limit =
+    typeof searchParams.limit === "string" ? Number(searchParams.limit) : 5;
 
   const search =
-    typeof searchParams.search === "string" ? searchParams.search : "";
+    typeof searchParams.search === "string" ? searchParams.search : undefined;
 
-  // const clients = await getAllclients(search);
-  const clients = await getAllclients(1, 2);
-  console.log("clients: ", clients);
+  const [immos, setImmos] = useState([]);
+  const [total, setTotal] = useState(0);
+
+  //const session: any = await getSes();
+  const { data: session, status } = useSession();
+  const tempo: any = session?.user;
+  const val: any = tempo ? tempo?.role : "USER";
+  //console.log("val: ", val);
+
+  useEffect(() => {
+    const fetchImmos = async () => {
+      const data = await getAllImmos(page, limit, search);
+      //const data = res.json();
+
+      // console.log("data: ", data);
+
+      setImmos(data);
+    };
+    fetchImmos();
+
+    const computeTotal = async () => {
+      const data = await totalImmos(true);
+      // console.log("data: ", data);
+
+      //const data = res.json();
+      setTotal(data);
+    };
+    computeTotal();
+  }, [page, search, limit]);
 
   return (
     <div className=" mx-auto w-full">
-      <div className=" rounded-lg p-2 mt-2 bg-primary">
-        <Title
-          title="Liste des dossiers immos"
-          back={false}
-          size="lg:text-xl"
-        />
+      <div className=" rounded-lg p-2 pr-0 mt-2 bg-primary">
+        <div className="flex items-end justify-between">
+          <div className="flex items-center gap-2">
+            <Title
+              title="Liste des dossiers immobiliers"
+              back={false}
+              size="lg:text-xl"
+            />{" "}
+            <span className="font-bold">({total})</span>
+          </div>
+          {/*           {(val === "ADMIN" || val === "USER") && (
+            <AddButton path="/clients/newclient" text="Nouveau Client" />
+          )} */}
+        </div>
         <p className="text-sm">
-          Cette transaction permet de lister tous les dossiers immobiliers
+          {"Cette transaction permet de lister tous les dossiers immobiliers"}
         </p>
       </div>
       <div className="flex justify-between items-center my-5">
         <div className="flex items-center gap-2 bg-hov p-2 rounded-lg max-w-max">
-          <Search placeholder="Rechercher un dossier ..." path="immos" />
+          <Search
+            placeholder="Rechercher un dossier immobilier ..."
+            path="immos"
+            search={search}
+          />
         </div>
-        {/* <AddButton path="/clients/newuser" /> */}
+
+        <div className="flex items-center gap-8">
+          <NaviPages
+            page={page}
+            limit={limit}
+            total={total}
+            search={search}
+            path="immos"
+          />
+        </div>
       </div>
-      <table className="bg-primary w-full mt-6 rounded-lg">
-        <thead>
-          <tr>
-            <td>Nom</td>
-            <td>Prénom</td>
-            <td>Téléphone</td>
-            <td>Produits</td>
-            <td>Actions</td>
-          </tr>
-        </thead>
-        <tbody>
-          {clients &&
-            clients.map((el: Person) => (
-              <tr key={el.id}>
-                <td>{el.firstname}</td>
-                <td>{el.lastname}</td>
-                <td>{el.mobile}</td>
-                <td>{}</td>
-                <td></td>
-              </tr>
-            ))}
-        </tbody>
-      </table>
-      {/*       <p>Current page: {page}</p>
-       */}{" "}
-      {/*       <div className=" flex justify-end gap-4 text-xs">
-        <Link
-          className={
-            page == 1
-              ? `p-2 rounded-lg bg-gray-400 text-gray-800 pointer-events-none`
-              : `p-2 bg-hov rounded-lg hover:text-yellow-400`
-          }
-          href={`/clients?page=${page > 1 ? page - 1 : 1}`}
-        >
-          Précédent
-        </Link>
-        <Link
-          className={
-            total - page * limit < 0
-              ? "p-2 rounded-lg bg-gray-400 text-gray-800 pointer-events-none"
-              : "p-2 bg-hov rounded-lg hover:text-yellow-400"
-          }
-          href={`/clients?page=${page + 1}`}
-        >
-          Suivant
-        </Link>
-        <Suivant page={page} />
-      </div> */}
+      <ImmosTable immos={immos} userRole={val} />
     </div>
   );
 };
 
-export default ImmosPage;
+export default ImmosListPage;

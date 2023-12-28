@@ -1,18 +1,18 @@
 import React from "react";
 import Card from "../dashboard/Card";
 import { MdGrade } from "react-icons/md";
-import { totalClients } from "@/app/lib/getAllClients";
+import { totalAssurances } from "@/app/lib/getAllAssurances";
 
 export const dynamic = "force-dynamic";
 
 const AssuDash = async () => {
-  const total = await totalClients();
+  const total = await totalAssurances(false);
 
   return (
     <>
       <Card
         title="Dossiers Assurances"
-        total={total}
+        total={+total}
         path="/assus"
         icon={
           <span className="text-purple-400">

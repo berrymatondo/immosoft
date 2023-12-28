@@ -5,6 +5,7 @@ import AuthProvider from "./context/AuthProvider";
 import Sidebar from "./components/navigation/Sidebar";
 import Navbar from "./components/navigation/Navbar";
 import Footer from "./components/navigation/Footer";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -45,11 +46,12 @@ export default function RootLayout({
           <div className="flex-1 bg-secondary p-5 min-h-screen max-lg:hidden">
             <Sidebar />
           </div>
-          <div className="flex-[4_4_0%] p-5 flex flex-col ">
+          <div className="flex-[4_4_0%] md:p-5 flex flex-col justify-between h-screen ">
             <Navbar />
             {children}
             {/*             <div className="h-full flex items-end">
              */}{" "}
+            <Toaster richColors />
             <Footer />
             {/*             </div>
              */}{" "}

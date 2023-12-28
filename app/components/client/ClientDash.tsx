@@ -6,7 +6,7 @@ import { totalClients } from "@/app/lib/getAllClients";
 export const dynamic = "force-dynamic";
 
 const ClientDash = async () => {
-  const total = await totalClients();
+  const total = await totalClients(false);
 
   return (
     <>

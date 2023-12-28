@@ -1,5 +1,5 @@
 "use client";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import React from "react";
 import { FaHouseDamage } from "react-icons/fa";
 import {
@@ -11,6 +11,7 @@ import {
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const getPathName = () => {
     let out = pathname.split("/").pop();
@@ -38,7 +39,10 @@ const Navbar = () => {
     <div className="flex justify-between items-center p-5 rounded-lg bg-secondary">
       <div className="text-third text-2xl font-bold capitalize">
         {" "}
-        <div className=" flex justify-center text-4xl">
+        <div
+          onClick={() => router.push("/")}
+          className=" flex justify-center text-4xl hover:cursor-pointer"
+        >
           <span className="text-teal-600">
             <FaHouseDamage />
           </span>

@@ -28,7 +28,7 @@ import { getServerSession } from "next-auth";
 const TasksPage = async () => {
   const session = await getServerSession(authOptions);
 
-  console.log("SESSION: ", session);
+  //console.log("SESSION: ", session);
 
   if (!session) return redirect("/login");
 
