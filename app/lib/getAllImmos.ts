@@ -1,7 +1,8 @@
 export async function getAllImmos(
   page: number,
   limit: number,
-  search?: string
+  search?: string,
+  demAccepted?: boolean
 ) {
   //let res: any;
 
@@ -19,15 +20,18 @@ export async function getAllImmos(
   let res;
   if (search)
     res = await fetch(
-      `/api/immos?page=${page}&limit=${limit}&search=${search}`,
+      `/api/immos?page=${page}&limit=${limit}&search=${search}&demAccepted=${demAccepted}`,
       {
         cache: "no-store",
       }
     );
   else
-    res = await fetch(`/api/immos?page=${page}&limit=${limit}`, {
-      cache: "no-store",
-    });
+    res = await fetch(
+      `/api/immos?page=${page}&limit=${limit}&demAccepted=${demAccepted}`,
+      {
+        cache: "no-store",
+      }
+    );
   const data = await res.json();
 
   //console.log("DONNEES", data.results);

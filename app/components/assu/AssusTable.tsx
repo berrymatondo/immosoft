@@ -34,7 +34,7 @@ const AssusTable = ({ assus, userRole }: AssusTableProps) => {
             >
               <td className="px-4 py-2 ">
                 <span className="uppercase">{el.person.lastname}</span>{" "}
-                {el.person.firstname}
+                <p className="lowercase">{el.person.firstname}</p>
               </td>
               <td className="">
                 <p>

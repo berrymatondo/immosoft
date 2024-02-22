@@ -9,6 +9,8 @@ import { authOptions } from "@/utils/authOptions";
 import { revalidatePath } from "next/cache";
 
 export const POST = async (request: NextRequest, response: NextResponse) => {
+  console.log("POST");
+
   const {
     maritalStatus,
     salNet,
@@ -22,6 +24,13 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
     autPrt,
     autPrtCo,
     notes,
+    demAccepetd,
+    banque,
+    bankName,
+    demAmount,
+    taux,
+    duree,
+    mensualite,
   } = await request.json();
   const path = request.nextUrl.pathname;
   const clientId = path.split("clients/")[1].split("/immos")[0];
@@ -47,6 +56,13 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
         autPrt,
         autPrtCo,
         notes,
+        demAccepetd,
+        banque,
+        bankName,
+        demAmount,
+        taux,
+        duree: +duree,
+        mensualite: +mensualite,
         username: userTmp.username ? userTmp.username : "",
         userId: userTmp.id ? parseInt(userTmp.id) : null,
       },

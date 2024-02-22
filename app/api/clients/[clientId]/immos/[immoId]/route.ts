@@ -8,13 +8,13 @@ import { revalidatePath } from "next/cache";
 
 export const PUT = async (request: NextRequest, response: NextResponse) => {
   //const url = new URL(request.url);
+  console.log("PUT");
 
   const path = request.nextUrl.pathname;
   const clientId = path.split("clients/")[1].split("/immos")[0];
   const immoId = path.split("clients/")[1].split("/immos/")[1];
 
-  console.log("clientId: ", clientId);
-  console.log("immoId: ", immoId);
+  //console.log("clientId: ", clientId);
 
   const {
     maritalStatus,
@@ -41,9 +41,16 @@ export const PUT = async (request: NextRequest, response: NextResponse) => {
     demandeCours,
     fileClosed,
     notes,
+    demAccepetd,
+    banque,
+    bankName,
+    demAmount,
+    taux,
+    duree,
+    mensualite,
   } = await request.json();
 
-  console.log("startDate: ", startDate, "endDate: ", endDate);
+  // console.log("startDate: ", startDate, "endDate: ", endDate);
 
   const session = await getServerSession(authOptions);
 
@@ -86,6 +93,13 @@ export const PUT = async (request: NextRequest, response: NextResponse) => {
         demandeCours,
         fileClosed,
         notes,
+        demAccepetd,
+        banque: banque,
+        bankName,
+        demAmount,
+        taux,
+        duree: +duree,
+        mensualite: +mensualite,
         username: userTmp.username ? userTmp.username : "",
         userId: userTmp.id ? parseInt(userTmp.id) : null,
       },

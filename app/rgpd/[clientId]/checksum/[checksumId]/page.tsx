@@ -127,7 +127,7 @@ const ValidateRGPD = ({ params }: ValidateRGPDProps) => {
                 "Je consens volontairement et librement au traitement de mes données personnelles aux fins suivantes :"
               }
               <span>
-                {"Conseils et accompagnent en IMMOBILIER et ASSURANCES"}
+                {"Conseils et accompagnement en IMMOBILIER et ASSURANCES"}
               </span>
             </p>
           </div>

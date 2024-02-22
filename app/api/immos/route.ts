@@ -23,6 +23,15 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
     : "";
   //let para = url.searchParams.get("search");
 
+  console.log("AVANT:=", url.searchParams.get("demAccepted"));
+
+  /*   const demAccepetd = url.searchParams.get("demAccepted")
+    ? Boolean(url.searchParams.get("demAccepted"))
+    : false; */
+
+  let demAccepetd = false;
+  if (url.searchParams.get("demAccepted") == "true") demAccepetd = true;
+
   const taille = search?.length ?? 0;
 
   const skip = (page - 1) * limit;
@@ -47,6 +56,13 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
     let results;
     if (taille < 1) {
       results = await prisma.immo.findMany({
+        where: {
+          AND: [
+            {
+              demAccepetd: demAccepetd,
+            },
+          ],
+        },
         select: {
           id: true,
           immoStatus: true,
@@ -83,6 +99,11 @@ export const GET = async (request: NextRequest, response: NextResponse) => {
                   mode: "insensitive",
                 },
               },
+            },
+          ],
+          AND: [
+            {
+              demAccepetd: demAccepetd,
             },
           ],
         },

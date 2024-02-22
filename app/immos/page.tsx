@@ -28,6 +28,7 @@ const ImmosListPage = ({
 
   const [immos, setImmos] = useState([]);
   const [total, setTotal] = useState(0);
+  const [demAccepted, setDemAccepted] = useState(false);
 
   //const session: any = await getSes();
   const { data: session, status } = useSession();
@@ -37,7 +38,9 @@ const ImmosListPage = ({
 
   useEffect(() => {
     const fetchImmos = async () => {
-      const data = await getAllImmos(page, limit, search);
+      console.log("SEARCG:=", search);
+
+      const data = await getAllImmos(page, limit, search, demAccepted);
       //const data = res.json();
 
       // console.log("data: ", data);
@@ -54,7 +57,12 @@ const ImmosListPage = ({
       setTotal(data);
     };
     computeTotal();
-  }, [page, search, limit]);
+  }, [page, search, limit, demAccepted]);
+
+  const handleDemAccepted = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDemAccepted(e.target.checked);
+    //console.log("VAL:=" + e.target.checked);
+  };
 
   return (
     <div className=" mx-auto w-full">
@@ -82,9 +90,17 @@ const ImmosListPage = ({
             placeholder="Rechercher un dossier immobilier ..."
             path="immos"
             search={search}
+            demAccepted={demAccepted}
           />
         </div>
-
+        <div className="flex gap-2 items-center">
+          <label className="text-sm">{"Demandes acceptées"}</label>
+          <input
+            type="checkbox"
+            checked={demAccepted}
+            onChange={handleDemAccepted}
+          />
+        </div>
         <div className="flex items-center gap-8">
           <NaviPages
             page={page}

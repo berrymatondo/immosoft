@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Immo" ALTER COLUMN "banque" SET DEFAULT 'X',
+ALTER COLUMN "bankName" SET DEFAULT 'X';

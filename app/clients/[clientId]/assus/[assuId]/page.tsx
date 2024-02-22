@@ -278,7 +278,7 @@ const ClientAssuPage = ({ params }: ClientAssuPageProps) => {
                 </p>
                 <p>
                   Dernière modification:{" "}
-                  <strong>{assu?.updatedAt.toString()}</strong>
+                  <strong>{assu?.updatedAt?.toString()}</strong>
                 </p>
               </>
             )}

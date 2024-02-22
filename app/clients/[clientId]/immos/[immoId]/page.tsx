@@ -1,7 +1,7 @@
 "use client";
 import MyLabel from "@/app/components/MyLabel";
 import Title from "@/app/components/Title";
-import { Assurance, Immo, MaritalStatus, Person, Task } from "@prisma/client";
+import { Immo, MaritalStatus, Person, Task, Banques } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -52,6 +52,14 @@ const ClientImmoPage = ({ params }: ClientAssuPageProps) => {
   const [startDate, setStartDate] = useState<any>("");
   const [endDate, setEndDate] = useState<any>("");
   const [demandeCours, setDemandeCours] = useState<string>("");
+
+  const [banque, setBanque] = useState<string>("");
+  const [bankName, setBankName] = useState<string>("");
+  const [demAmount, setDemAmount] = useState<any>(0);
+  const [taux, setTaux] = useState<any>(0);
+  const [duree, setDuree] = useState<any>(0);
+  const [mensualite, setMensualite] = useState<any>(0);
+  const [demAccepetd, setDemAccepetd] = useState(false);
   const [fileClosed, setFileClosed] = useState(false);
 
   const [notes, setNotes] = useState<string>("");
@@ -120,6 +128,17 @@ const ClientImmoPage = ({ params }: ClientAssuPageProps) => {
       setEndDate(foundImmo?.endDate?.toString().split("T")[0]);
       setDemandeCours(foundImmo?.demandeCours ? foundImmo?.demandeCours : " ");
       setFileClosed(foundImmo.fileClosed);
+      setDemAccepetd(foundImmo.demAccepetd);
+
+      setNotes(foundImmo.notes as string);
+      setBanque(foundImmo.banque as string);
+      setBankName(foundImmo.bankName as string);
+      setDemAmount(foundImmo.demAmount ? +foundImmo.demAmount.toString() : "0");
+      setTaux(foundImmo.taux ? +foundImmo.taux.toString() : "0");
+      setDuree(foundImmo.duree ? +foundImmo.duree.toString() : "0");
+      setMensualite(
+        foundImmo.mensualite ? +foundImmo.mensualite.toString() : "0"
+      );
 
       setNotes(foundImmo.notes as string);
     };
@@ -231,6 +250,13 @@ const ClientImmoPage = ({ params }: ClientAssuPageProps) => {
       endDate,
       demandeCours,
       fileClosed,
+      demAccepetd,
+      banque,
+      bankName,
+      demAmount,
+      taux,
+      duree,
+      mensualite,
       notes,
     };
 
@@ -242,7 +268,7 @@ const ClientImmoPage = ({ params }: ClientAssuPageProps) => {
       },
       body: JSON.stringify(updateImmo),
     };
-    console.log("updateImmo", updateImmo);
+    //console.log("updateImmo", updateImmo);
 
     try {
       //const res = await fetch(process.env.NEXT_PUBLIC_POLES_API!, options);
@@ -603,9 +629,106 @@ const ClientImmoPage = ({ params }: ClientAssuPageProps) => {
                   : `w-full  lg:py-1 flex flex-col mt-2 border border-yellow-400 rounded-lg`
               }
             >
-              <MyLabel title="Demande en cours" />
+              <div className="flex gap-2">
+                <MyLabel title="Demande en cours à la banque" />{" "}
+                <select
+                  name="banque"
+                  className={inputStyle}
+                  value={banque}
+                  disabled={fileClosed}
+                  //defaultValue={client?.maritalstatus}
+                  onChange={(e) => {
+                    const c: any = Object.values(Banques)?.find(
+                      (x: any) => x === e.target.value
+                    );
+                    console.log("C:", c);
 
-              <div className="flex justify-between mt-2">
+                    setBanque(c);
+                  }}
+                >
+                  {/*                   <option value={"X"}>{"X"}</option>
+                   */}
+                  {Object.values(Banques)
+                    ? Object.values(Banques).map((bnk: any) => {
+                        return (
+                          <option key={bnk} value={bnk}>
+                            {bnk}
+                          </option>
+                        );
+                      })
+                    : null}
+                </select>
+                {banque == "AUTRE" && (
+                  <div className="">
+                    <input
+                      value={bankName}
+                      onChange={(e) => {
+                        setBankName(e.target.value);
+                      }}
+                      placeholder="Entrer le nom de la banque"
+                      type="text"
+                      className={inputStyle + " uppercase"}
+                      disabled={fileClosed}
+                    />
+                  </div>
+                )}
+                <div className="flex flex-col border border-hov rounded-lg">
+                  {banque != "X" && banque != null && (
+                    <>
+                      <div className="flex justify-between mx-1">
+                        <MyLabel title="Montant (eur)" />
+                        <input
+                          value={demAmount}
+                          onChange={(e) => {
+                            setDemAmount(+e.target.value);
+                          }}
+                          disabled={fileClosed}
+                          type="number"
+                          className={inputStyle}
+                        />
+                      </div>
+                      <div className="flex justify-between mx-1">
+                        <MyLabel title="Taux (%)" />
+                        <input
+                          value={taux}
+                          onChange={(e) => {
+                            setTaux(+e.target.value);
+                          }}
+                          disabled={fileClosed}
+                          type="number"
+                          className={inputStyle}
+                        />
+                      </div>
+                      <div className="flex justify-between mx-1">
+                        <MyLabel title={"Durée (mois)"} />
+                        <input
+                          value={duree}
+                          onChange={(e) => {
+                            setDuree(+e.target.value);
+                          }}
+                          disabled={fileClosed}
+                          type="number"
+                          className={inputStyle}
+                        />
+                      </div>
+                      <div className="flex justify-between mx-1">
+                        <MyLabel title={"Mensualité (eur)"} />
+                        <input
+                          value={mensualite}
+                          onChange={(e) => {
+                            setMensualite(+e.target.value);
+                          }}
+                          disabled={fileClosed}
+                          type="number"
+                          className={inputStyle}
+                        />
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-between mt-2 border border-hov rounded-lg p-2 my-2">
                 <div className="">
                   <MyLabel title="Début clause" />
                   <input
@@ -654,6 +777,24 @@ const ClientImmoPage = ({ params }: ClientAssuPageProps) => {
                 rows={4}
                 className={inputStyle}
               />
+
+              <div className="">
+                <input
+                  checked={demAccepetd}
+                  onChange={(e) => {
+                    setDemAccepetd(e.target.checked);
+                  }}
+                  type="checkbox"
+                  className={inputStyle}
+                />
+                <label>
+                  {" "}
+                  {"Demande acceptée ? "}{" "}
+                  <strong className="text-yellow-400">
+                    {demAccepetd ? "OUI" : "NON"}
+                  </strong>
+                </label>
+              </div>
 
               <div className="">
                 <input
@@ -722,7 +863,7 @@ const ClientImmoPage = ({ params }: ClientAssuPageProps) => {
               </p>
               <p>
                 Dernière modification:{" "}
-                <strong>{immo?.updatedAt.toString()}</strong>
+                <strong>{immo?.updatedAt?.toString()}</strong>
               </p>
             </>
           )}

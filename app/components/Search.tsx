@@ -8,6 +8,7 @@ type SearchProps = {
   placeholder: string;
   path: string;
   search?: string;
+  demAccepted?: boolean;
 };
 
 const Search = (props: SearchProps) => {
@@ -16,9 +17,9 @@ const Search = (props: SearchProps) => {
   const [query] = useDebounce(text, 500);
 
   const pathTo = `/${props.path}?search=${query}`;
-  //console.log("pathTo:", pathTo);
+  console.log("pathTo:", pathTo);
 
-  //console.log("query:", query);
+  console.log("query:", query);
 
   const initialRender = useRef(true);
 

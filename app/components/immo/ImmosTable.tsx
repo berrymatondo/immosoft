@@ -45,7 +45,7 @@ const ImmosTable = ({ immos, userRole }: ImmosTableProps) => {
     <table className="bg-primary w-full mt-6 rounded-lg p-4">
       <thead>
         <tr className="font-semibold text-third bg-hov">
-          <th className="px-2 py-4 text-left">Preneur</th>
+          <th className="px-2 py-4 text-left">Client</th>
 
           <th className="text-left">Description</th>
           <th className="text-left">Progression</th>
@@ -66,8 +66,8 @@ const ImmosTable = ({ immos, userRole }: ImmosTableProps) => {
               }
             >
               <td className="text-left p-2 max-md:flex max-md:flex-col">
-                <span className="uppercase">{el.person.lastname}</span>{" "}
-                {el.person.firstname}
+                <p className="uppercase">{el.person.lastname}</p>{" "}
+                <p className="lowercase">{el.person.firstname}</p>
               </td>
               <td className="text-left text-sm">
                 <p>
@@ -78,7 +78,7 @@ const ImmosTable = ({ immos, userRole }: ImmosTableProps) => {
                     </strong> */}
                   </span>
                 </p>
-                <p className="text-yellow-400 ">{el.notes}</p>
+                <p className="text-yellow-400 max-w-96 ">{el.notes}</p>
               </td>
               <td className="text-left">
                 {prog.map((ele, index) => (
@@ -95,7 +95,11 @@ const ImmosTable = ({ immos, userRole }: ImmosTableProps) => {
                     {ele}
                   </label>
                 ))}{" "}
-                <span className={`${getCol(getProgress(el))} p-1 rounded-lg`}>
+                <span
+                  className={`${getCol(
+                    getProgress(el)
+                  )} p-1 rounded-lg text-xs`}
+                >
                   {showStatus(el)}
                 </span>
               </td>

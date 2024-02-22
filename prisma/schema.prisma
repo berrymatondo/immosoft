@@ -32,13 +32,13 @@ model Person {
   maritalstatus MaritalStatus
   birthday DateTime?
   mobile String?
-  email     String?  @unique
+  email     String? 
   address String?
   notes String?
   createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
   userId Int?
-  username String
+  username String?
   origin String?
   assus Assurance[]
   immos Immo[]
@@ -53,7 +53,7 @@ model Assurance {
   status AssuStatus
   type AssuType
   createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
   userId Int?
   username String?
   personId Int
@@ -78,16 +78,16 @@ model Task {
   immo Immo? @relation(fields: [immoId], references: [id])
 
   createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
   userId Int?
   username String?
   
-}
+} 
 
 model Rgpd {
   id Int @id @default(autoincrement())
   createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
   personId Int @unique
   signed Boolean @default(false)
   checksum Int
@@ -148,9 +148,17 @@ model Immo {
   autPrtCo Decimal @db.Decimal(10,2)
 
   createAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId Int?
+  updatedAt DateTime? @updatedAt
+  userId Int? 
   username String?
+
+  banque Banques? @default(X)
+  bankName String? @default("X")
+  demAmount  Decimal @db.Decimal(10,2)
+  taux  Decimal @db.Decimal(10,2)
+  duree Int
+  mensualite Int
+  demAccepetd Boolean @default(false)
 
   //linked client
   personId Int
@@ -180,6 +188,14 @@ enum AssuStatus {
   PCD
 }
 
+enum Banques {
+  X
+  DEMETRIS
+  ALIANZ
+  CREAFIN
+  PV
+  AUTRE
+}
 
 enum Role {
   USER

@@ -42,7 +42,9 @@ const ClientsTable = ({ clients, userRole }: ClientsTableProps) => {
               //className="border-b border-b-hov hover:bg-hov hover:cursor-pointer  hover:text-yellow-400"
               onClick={() => router.push(`/clients/${el.id}`)}
             >
-              <td className="px-2 py-4  max-md:hidden">{el.firstname}</td>
+              <td className="px-2 py-4  max-md:hidden lowercase">
+                {el.firstname}
+              </td>
               <td className="max-md:py-2.5">{el.lastname}</td>
               <td className="max-md:hidden">{el.mobile}</td>
               <td className="text-right text-sm pr-2">
