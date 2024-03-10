@@ -1,12 +1,23 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Card from "../dashboard/Card";
 import { MdGrade, MdHouse } from "react-icons/md";
 import { totalImmos } from "@/app/lib/getAllImmos";
 
-export const dynamic = "force-dynamic";
+//export const dynamic = "force-dynamic";
 
-const ImmoDash = async () => {
-  const total = await totalImmos(false);
+const ImmoDash = () => {
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const fetchImmos = async () => {
+      const data = await totalImmos(true);
+
+      setTotal(data);
+    };
+
+    fetchImmos();
+  }, []);
 
   return (
     <>

@@ -1,12 +1,23 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Card from "../dashboard/Card";
 import { MdGrade, MdTask } from "react-icons/md";
 import { totalActions } from "@/app/lib/getAllActions";
 
-export const dynamic = "force-dynamic";
+//export const dynamic = "force-dynamic";
 
-const ActionDash = async () => {
-  const total = await totalActions(false);
+const ActionDash = () => {
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    const fetchActions = async () => {
+      const data = await totalActions(true);
+
+      setTotal(data);
+    };
+
+    fetchActions();
+  }, []);
 
   return (
     <>
