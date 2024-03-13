@@ -22,6 +22,7 @@ import { GiPayMoney } from "react-icons/gi";
 
 import { usePathname, useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 const menuItems = [
   {
@@ -136,6 +137,23 @@ const Sidebar = () => {
     <div className="sticky top-10">
       <Connect session={session} />
 
+      <div className="border border-hov p-2 rounded-lg flex flex-col my-2">
+        <p className="font-bold ">Lien utiles</p>
+        <Link
+          className="hover:text-yellow-400 py-2"
+          href="https://www.demetris.be/simulationpublic/kpLeencapaciteitExpress.html#taal=1"
+          target="_blank"
+        >
+          {"Simulation Capacité d'emprunt"}
+        </Link>
+        <Link
+          className="hover:text-yellow-400"
+          href="https://www.demetris.be/simulationpublic/KpwoonkredietSimulatieExpress.html#taal=1"
+          target="_blank"
+        >
+          {"Simulation Mensualité"}
+        </Link>
+      </div>
       <ul>
         {menuItems.map((cat: any) => (
           <li key={cat.title}>

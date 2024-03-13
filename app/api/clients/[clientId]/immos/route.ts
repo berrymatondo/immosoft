@@ -9,7 +9,7 @@ import { authOptions } from "@/utils/authOptions";
 import { revalidatePath } from "next/cache";
 
 export const POST = async (request: NextRequest, response: NextResponse) => {
-  console.log("POST");
+  //console.log("POST");
 
   const {
     maritalStatus,
@@ -40,6 +40,13 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
   const session = await getServerSession(authOptions);
 
   try {
+    console.log("AVANT ECRITURE:", duree);
+    console.log("AVANT ECRITURE men:", mensualite);
+    console.log("AVANT ECRITURE dem:", demAmount);
+    console.log("AVANT ECRITURE tau:", taux);
+    console.log("AVANT ECRITURE autPrtCo:", autPrtCo);
+    console.log("AVANT ECRITURE chqRepCo:", chqRepCo);
+
     const userTmp: any = session?.user;
     const assus = await prisma.immo.create({
       data: {
@@ -59,10 +66,10 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
         demAccepetd,
         banque,
         bankName,
-        demAmount,
-        taux,
-        duree: +duree,
-        mensualite: +mensualite,
+        demAmount: demAmount ? +demAmount : 0,
+        taux: taux ? +taux : 0,
+        duree: duree ? +duree : 0,
+        mensualite: mensualite ? +mensualite : 0,
         username: userTmp.username ? userTmp.username : "",
         userId: userTmp.id ? parseInt(userTmp.id) : null,
       },

@@ -268,7 +268,12 @@ const DetailsClientPage = ({ params }: ClientDetailsPageProps) => {
 
             {val === "ADMIN" && (
               <div className="w-full flex justify-end gap-4">
-                <button className="text-red-400">Supprimer</button>
+                <button
+                  onClick={() => router.push(`/clients/${client?.id}/delete`)}
+                  className="text-red-400"
+                >
+                  Supprimer
+                </button>
                 <button
                   onClick={() => router.push(`/clients/${client?.id}/update`)}
                   className="bg-orange-400 p-2 rounded-lg"
@@ -287,7 +292,7 @@ const DetailsClientPage = ({ params }: ClientDetailsPageProps) => {
                 {"En attente du consentement:"}
                 <Link
                   className="text-yellow-400"
-                  href={`http://localhost:3000/rgpd/${params.clientId}/checksum/${checksum}`}
+                  href={`/rgpd/${params.clientId}/checksum/${checksum}`}
                   target="_blank"
                 >
                   Lien

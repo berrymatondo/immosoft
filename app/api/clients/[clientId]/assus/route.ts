@@ -13,7 +13,7 @@ export const POST = async (request: NextRequest, response: NextResponse) => {
   const path = request.nextUrl.pathname;
   const clientId = path.split("clients/")[1].split("/assus")[0];
   // console.log("ASSURANCE clientId vaut:", clientId);
-  // console.log("obj", { assudenom, assustatus, description });
+  //console.log("obj", { assudenom, assustatus, description, clientId });
 
   const session = await getServerSession(authOptions);
 
